@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """Módulo principal"""
 
-
 #libreria random
 import random
 
-palabras = ["hola", "sol", "supercalifragilistico"]
+with open('wordlist.txt', 'r', encoding='utf-8') as f:
+    palabras = f.read().splitlines()
 
 palabra_elegida = random.choice(palabras)
 
