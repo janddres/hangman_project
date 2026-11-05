@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """Módulo principal"""
 
-#libreria random
-import random
+#import de clases y funciones
+import utils
 
-with open('wordlist.txt', 'r', encoding='utf-8') as f:
-    palabras = f.read().splitlines()
+def main():
+    palabra_elegida = utils.get_random_word()
+    print(palabra_elegida)
 
-palabra_elegida = random.choice(palabras)
-
-print(palabra_elegida)
+if __name__ == "__main__":
+    main()
