@@ -3,10 +3,14 @@
 
 #import de clases y funciones
 import utils
+import game
 
 def main():
     palabra_elegida = utils.get_random_word()
-    print(palabra_elegida)
+
+    juego = game.HangmanGame(palabra_elegida)
+
+    juego.display_progress()
 
 if __name__ == "__main__":
     main()
