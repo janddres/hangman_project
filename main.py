@@ -10,7 +10,7 @@ def main():
 
     juego = game.HangmanGame(palabra_elegida)
 
-    juego.display_progress()
+    juego.play()
 
 if __name__ == "__main__":
     main()
