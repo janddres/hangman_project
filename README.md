@@ -2,52 +2,60 @@
 
 ## Descripción
 
-Este proyecto consiste en desarrollar un juego del ahorcado en Python que funciona desde la consola. El jugador debe adivinar una palabra oculta, ingresando letras una por una, antes de alcanzar el límite de intentos incorrectos.
+Este es un juego del ahorcado desarrollado en Python que funciona desde la consola. El jugador debe adivinar una palabra oculta letra por letra antes de alcanzar el límite de intentos incorrectos.
 
-El juego utiliza una lista de palabras en español almacenadas en un archivo de texto, del cual selecciona una palabra aleatoriamente al comenzar cada partida.
+El programa selecciona aleatoriamente una palabra en español desde un archivo de texto.
 
 ## Estructura del Proyecto
 
 ```text
 hangman_project/
-├── main.py           # Inicio y bucle principal del juego
+├── main.py           # Punto de entrada y bucle principal del juego
 ├── game.py           # Clase HangmanGame con la lógica del juego
-├── utils.py          # Funciones auxiliares
+├── utils.py          # Funciones auxiliares para cargar palabras
 ├── wordlist.txt      # Lista de palabras en español
-└── README.md         # Información e instrucciones del proyecto
+└── README.md         # Instrucciones y descripción del proyecto
 ```
 
 ### Descripción de Archivos
 
-- **main.py**: Contiene el bucle principal del juego, solicita las letras al jugador y muestra los resultados de cada intento.
-- **game.py**: Contiene la clase `HangmanGame`, encargada de almacenar la palabra, los intentos y las condiciones para ganar o perder.
-- **utils.py**: Incluye la función `get_random_word()`, que permite seleccionar una palabra aleatoria.
-- **wordlist.txt**: Contiene las palabras utilizadas durante el juego, una por línea.
+- **main.py**: Contiene el bucle principal del juego, valida las letras ingresadas y muestra el progreso.
+- **game.py**: Define la clase `HangmanGame`, que administra el estado y las reglas del juego.
+- **utils.py**: Contiene la función `get_random_word()`, encargada de seleccionar una palabra aleatoria.
+- **wordlist.txt**: Contiene 20 palabras en español, una por línea.
 
 ## Reglas del Juego
 
 1. El programa selecciona una palabra aleatoria en español.
-2. El jugador debe adivinar la palabra ingresando una letra por turno.
+2. El jugador intenta adivinarla ingresando una letra por turno.
 3. Solo se aceptan letras individuales.
-4. Cada letra incorrecta aumenta el contador de errores.
-5. El jugador puede cometer hasta 6 errores.
-6. Los espacios, guiones y signos de puntuación se muestran automáticamente.
-7. El jugador gana cuando descubre todas las letras de la palabra.
-8. El jugador pierde cuando alcanza los 6 errores permitidos.
+4. Las letras ya intentadas no se pueden repetir.
+5. Cada letra incorrecta aumenta el contador de errores.
+6. El jugador puede cometer hasta 6 errores.
+7. Los caracteres que no son letras, como espacios y guiones, se muestran automáticamente.
+8. El jugador gana cuando descubre todas las letras de la palabra.
+9. El jugador pierde cuando alcanza 6 errores.
 
 ## Cómo Ejecutar
 
-1. Abrir una terminal o línea de comandos.
-2. Ingresar a la carpeta `hangman_project`.
-3. Ejecutar el siguiente comando:
+1. Tener Python 3 instalado.
+2. Abrir una terminal e ingresar a la carpeta del proyecto:
 
-```bash
-python main.py
-```
+   ```bash
+   cd hangman_project
+   ```
 
-Para iniciar una nueva partida, se puede volver a ejecutar el programa.
+3. Ejecutar el juego:
+
+   ```bash
+   python main.py
+   ```
+
+Para jugar otra partida, se puede volver a ejecutar el programa.
 
 ## Ejemplo de Juego
+
+El siguiente ejemplo utiliza la palabra `gato` para mostrar cómo se desarrolla una partida. En el juego real, la palabra se selecciona al azar.
 
 ```text
 ¡Bienvenido al juego del ahorcado!
@@ -64,7 +72,7 @@ Ingresá una letra: a
 ¡Correcto! La letra está en la palabra.
 
 ========================================
-Palabra: _ a _ a
+Palabra: _ a _ _
 Letras intentadas: a
 Intentos restantes: 6
 ========================================
@@ -73,69 +81,97 @@ Ingresá una letra: e
 La letra no está en la palabra.
 
 ========================================
-Palabra: _ a _ a
+Palabra: _ a _ _
 Letras intentadas: a, e
 Intentos restantes: 5
+========================================
+
+Ingresá una letra: g
+¡Correcto! La letra está en la palabra.
+
+========================================
+Palabra: g a _ _
+Letras intentadas: a, e, g
+Intentos restantes: 5
+========================================
+
+Ingresá una letra: t
+¡Correcto! La letra está en la palabra.
+
+========================================
+Palabra: g a t _
+Letras intentadas: a, e, g, t
+Intentos restantes: 5
+========================================
+
+Ingresá una letra: o
+¡Correcto! La letra está en la palabra.
+
+========================================
+Palabra: g a t o
+Letras intentadas: a, e, g, t, o
+Intentos restantes: 5
+========================================
+¡Ganaste!
 ========================================
 ```
 
 ## Validación de Entrada
 
-El programa comprueba que las letras ingresadas sean válidas.
-
-No permite:
+El juego no permite:
 
 - Entradas vacías.
-- Más de una letra a la vez.
-- Números o símbolos.
-- Letras que ya hayan sido intentadas.
+- Más de una letra por intento.
+- Números y símbolos.
+- Letras que ya fueron intentadas, sean correctas o incorrectas.
 
-Cuando se ingresa un valor incorrecto, el programa muestra un mensaje y solicita nuevamente una letra sin descontar intentos.
+Cuando la entrada no es válida, se muestra un mensaje de error y se solicita otra letra sin descontar intentos.
 
 ## Componentes Principales
 
 ### Clase HangmanGame
 
-La clase `HangmanGame` permite guardar y administrar los datos de cada partida.
-
-Sus atributos principales son:
+La clase `HangmanGame`, definida en `game.py`, guarda la información de la partida:
 
 - `word`: Palabra que debe adivinar el jugador.
-- `guessed_letters`: Lista de letras acertadas.
+- `guessed_letters`: Lista de todas las letras intentadas, tanto correctas como incorrectas.
 - `errors`: Cantidad de intentos incorrectos.
-- `max_errors`: Número máximo de errores permitidos, establecido en 6.
+- `max_errors`: Límite máximo de errores, establecido en 6.
 
 ### Métodos Principales
 
-- `display_progress()`: Muestra las letras descubiertas y oculta las que faltan.
-- `process_guess(letter)`: Comprueba si la letra ingresada pertenece a la palabra.
-- `is_won()`: Comprueba si el jugador completó la palabra.
+- `display_progress()`: Muestra las letras descubiertas y oculta las que faltan mediante guiones bajos.
+- `process_guess(letter)`: Comprueba la letra ingresada y actualiza el estado del juego.
+- `is_won()`: Comprueba si el jugador adivinó todas las letras.
 - `is_lost()`: Comprueba si el jugador alcanzó el límite de errores.
 
 ### Función get_random_word()
 
-Esta función se encuentra en `utils.py`.
-
-Se encarga de leer las palabras almacenadas en `wordlist.txt` y seleccionar una de manera aleatoria utilizando el módulo `random` de Python.
+La función `get_random_word()`, ubicada en `utils.py`, lee el archivo `wordlist.txt` y utiliza `random.choice()` para seleccionar una palabra al azar.
 
 ## Notas de Desarrollo
 
-El programa fue organizado en diferentes archivos para separar las funciones principales y facilitar su lectura.
+El proyecto está dividido en varios archivos para separar la lógica del juego, la entrada del usuario y la carga de palabras.
 
-Se utilizaron variables, condicionales, bucles, listas, funciones y una clase para desarrollar el funcionamiento del juego.
+Para desarrollar el programa se utilizaron variables, condicionales, bucles, listas, funciones, clases y lectura de archivos de texto.
 
-Los nombres de las variables, funciones y métodos están escritos en inglés, siguiendo las convenciones habituales de Python. Los comentarios y mensajes que aparecen en la consola están escritos en español.
+Los nombres de las variables, clases y funciones están en inglés. Los comentarios, los mensajes que aparecen en pantalla y la documentación están en español.
 
-La lista inicial contiene palabras en español y sin tildes para simplificar la entrada de letras.
+Las palabras del archivo están escritas en minúsculas y sin tildes para facilitar las adivinanzas. La letra `ñ` se conserva y el archivo se lee con codificación UTF-8.
 
 ## Requisitos
 
-- Python 3.x instalado.
-- Los archivos del proyecto deben encontrarse dentro de la misma carpeta.
-- No se necesitan bibliotecas adicionales.
+- Python 3.x.
+- Los archivos del proyecto deben estar en la misma carpeta.
+- No se requieren bibliotecas adicionales.
 
-## Proyecto académico
+## Proyecto Académico
 
 **Universidad Tecnológica (UTEC)**
 
-Proyecto: Python - Ahorcado
+**Proyecto:** Python - Ahorcado
+
+**Integrantes:**
+
+- Federico Ramos
+- Juan Aranda
