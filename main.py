@@ -16,7 +16,7 @@ def main():
         print("\nSaliste del juego. ¡Hasta la próxima!\n")
         return
 
-    #selecciona una palabra enviado el archivo obtenido en el paso anterior.
+    # selecciona una palabra enviado el archivo obtenido en el paso anterior.
     chosen_word = utils.get_random_word(file)
 
     game = HangmanGame(chosen_word)
@@ -27,7 +27,7 @@ def main():
 
         letter = input("\nIngresa una letra: ").lower().strip()
 
-        utils.clear_screen() #  Limpio la pantalla
+        utils.clear_screen()  # Limpio la pantalla
 
         # Mejora . Opción de salida
         if letter in ["esc", "salir", "exit"]:
@@ -59,7 +59,7 @@ def main():
             name = "Anónimo"
 
         utils.save_score(name, score)
-        utils.display_scores()        
+        utils.display_scores()
     else:
         print(draw.HANGMAN[game.errors])
         print(f"\nFin del juego\n\nLa palabra era: {game.word}\n")

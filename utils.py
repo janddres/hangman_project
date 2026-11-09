@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """Módulo Utilitarios"""
 
-#libreria random
 import random
 import os
 import json
 
 SCORES_FILE = "scores.json"
 
-#funcion de palabra random
+
+# funcion de palabra random
 def get_random_word(chosen_file: str):
 
     with open(chosen_file, mode='r', encoding='utf-8') as file:
@@ -17,7 +17,8 @@ def get_random_word(chosen_file: str):
     words = [w.strip() for w in words if w.strip()]
     return random.choice(words)
 
-#Menu de seleccion de nivel
+
+# Menu de seleccion de nivel
 def chosen_level():
     """Muestra el menú y permite al usuario seeleccionar el nivel."""
     print("\n   SELECCIONA EL NIVEL   \n")
@@ -27,29 +28,30 @@ def chosen_level():
     print("4. Salir")
 
     while True:
-            opcion = input("\nElige una opción: ").strip()
- 
-            if opcion == "1":
-                return "wordlist.txt"
-            elif opcion == "2":
-                return "wordlist_1.txt"
-            elif opcion == "3":
-                return "wordlist_2.txt"
-            elif opcion == "4":
-                return None  # Salir
-            else:
-                print("Opción no válida. Intenta de nuevo.")
+        opcion = input("\nElige una opción: ").strip()
 
-#Fincion para limpiar la pantalla
+        if opcion == "1":
+            return "wordlist.txt"
+        elif opcion == "2":
+            return "wordlist_1.txt"
+        elif opcion == "3":
+            return "wordlist_2.txt"
+        elif opcion == "4":
+            return None  # Salir
+        else:
+            print("Opción no válida. Intenta de nuevo.")
+
+
+# Fincion para limpiar la pantalla
 def clear_screen():
     """Limpia la pnatlla detectando."""
     # 'nt' corresponde a Windows; posix a Linux y macOS
     os.system("cls" if os.name == "nt" else "clear")
 
 
-#Mantenimiento de puntuación
+# Mantenimiento de puntuación
 def load_scores():
-    """Carga las puntuaciones desde el archivo JSON. 
+    """Carga las puntuaciones desde el archivo JSON.
     Si el archivo no existe, retorna una lista vacía."""
     if not os.path.exists(SCORES_FILE):
         return []
@@ -63,7 +65,7 @@ def load_scores():
 
 def save_score(player_name, score):
     """Guarda una nueva puntuación y mantiene solo los 5 mejores."""
-    scores = load_scores() #carga el Json a una lista de diccionarios
+    scores = load_scores()  # carga el Json a una lista de diccionarios
 
     # Se agrega un nuevo registo
     scores.append({"name": player_name, "score": score})
