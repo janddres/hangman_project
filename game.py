@@ -33,8 +33,7 @@ class HangmanGame:
                 text = text + "_ "
         if self.guessed_letters:
             print(f"\nLas letras que ya probaste son {self.guessed_letters}")
-        print(draw.HANGMAN[self.errors])
-        print(text.strip())
+        return text.strip()
 
     def is_won(self):
         """Valida que se hallan ingresado todas las letras de la palabra"""
@@ -49,6 +48,8 @@ class HangmanGame:
 
     def calculate_score(self):
         """Calcula el puntaje basado en intentos
-        restantes y longitud de la palabra."""
+        restantes y cantidad de letras alfabeticas."""
         remaining_attempts = self.max_errors - self.errors
-        return (remaining_attempts * 100) + (len(self.word) * 10)
+        # solo tiene en cuenta las letras para el puntaje de dificultad
+        total_letters = sum(1 for letter in self.word if letter.isalpha())
+        return (remaining_attempts * 100) + (total_letters * 10)

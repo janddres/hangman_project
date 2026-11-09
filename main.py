@@ -23,7 +23,8 @@ def main():
 
     while not game.is_won() and not game.is_lost():
         print(f"\nTe quedan {game.max_errors - game.errors} intentos")
-        game.display_progress()
+        print(draw.HANGMAN[game.errors])  # Dibujo ASCII del ahorcado
+        print(game.display_progress())  # Palabra enmascarada (_ _ A _)
 
         letter = input("\nIngresa una letra: ").lower().strip()
 
