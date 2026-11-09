@@ -164,16 +164,6 @@ Métodos:
 
 **La puntuación se calcula únicamente cuando el jugador gana.** Se suman 100 puntos por cada intento restante y 10 por cada **letra alfabética** de la palabra o frase. Los espacios, números y símbolos no suman puntos.
 
-La implementación corregida de `calculate_score()` es:
-
-```python
-def calculate_score(self):
-    """Calcula los puntos por intentos restantes y letras alfabéticas."""
-    remaining_attempts = self.max_errors - self.errors
-    total_letters = sum(1 for letter in self.word if letter.isalpha())
-    return (remaining_attempts * 100) + (total_letters * 10)
-```
-
 Por ejemplo, al acertar `gato` con un error:
 
 ```text
