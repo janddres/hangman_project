@@ -1,37 +1,68 @@
 #!/usr/bin/python3
 """Módulo principal"""
 
-#import de clases y funciones
+
+#  import de clases y funciones
+import draw
 import utils
-import game
+from game import HangmanGame
+
 
 def main():
-    palabra_elegida = utils.get_random_word()
+    print(draw.TITLE)
+    #  Seleccion del nivel, obtiene uno de los archivos.
+    file = utils.chosen_level()
+    if file is None:
+        print("\nSaliste del juego. ¡Hasta la próxima!\n")
+        return
 
-    juego = game.HangmanGame(palabra_elegida)
+    #selecciona una palabra enviado el archivo obtenido en el paso anterior.
+    chosen_word = utils.get_random_word(file)
 
-    while not juego.is_success() and not juego.game_over():
-        print(f"\nTe quedan {juego.max_errors - juego.errors} intentos")
-        juego.display_progress()
+    game = HangmanGame(chosen_word)
 
-        letter = input("Ingresa una letra: ").lower().strip()
-        #validación, verifica que el usuario ingrese solo 1 letra
+    while not game.is_won() and not game.is_lost():
+        print(f"\nTe quedan {game.max_errors - game.errors} intentos")
+        game.display_progress()
+
+        letter = input("\nIngresa una letra: ").lower().strip()
+
+        utils.clear_screen() #  Limpio la pantalla
+
+        # Mejora . Opción de salida
+        if letter in ["esc", "salir", "exit"]:
+            print("\nSaliste del juego. ¡Hasta la próxima!\n")
+            return
+
+        #  validación, verifica que el usuario ingrese solo 1 letra
         if len(letter) != 1 or not letter.isalpha():
-            print("Por favor, ingresa una sola letra, no se permiten numeros")
+            print("\nPor favor, ingresa una sola letra")
             continue
 
-        #valida que la letra no haya sido ingresada    
-        if letter in juego.guessed_letters:
-            print("Esa letra ya fué ingresa, ingresa otra")
+        #  valida que la letra no haya sido ingresada
+        if letter in game.guessed_letters:
+            print("\nEsa letra ya fué ingresa, ingresa otra")
             continue
 
-        juego.process_guess(letter)
+        game.process_guess(letter)
 
-    if juego.is_success():
-        print("Ganaste")
-        juego.display_progress()
+    if game.is_won():
+        print("\n¡Ganaste!")
+        print(f"\nLa palabra era: {game.word}\n")
+
+        # Puntuación
+        score = game.calculate_score()
+        print(f"Tu puntuación fue: {score} pts")
+
+        name = input("\nIngresa tu nombre: ").strip()
+        if not name:
+            name = "Anónimo"
+
+        utils.save_score(name, score)
+        utils.display_scores()        
     else:
-        print(f"\nPerdiste. La palabra era: {juego.word}")
+        print(draw.HANGMAN[game.errors])
+        print(f"\nFin del juego\n\nLa palabra era: {game.word}\n")
 
 
 if __name__ == "__main__":
