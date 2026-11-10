@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """Módulo de juego"""
 
-import draw
-
 
 class HangmanGame:
     """Clase de juego"""
